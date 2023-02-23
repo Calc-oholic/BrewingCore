@@ -1,0 +1,17 @@
+recipes:
+  recipe1:
+    input:
+      - NETHER_WART
+      - BLAZE_POWDER
+    output:
+      "SPEED_POTION:1": "A potion of swiftness that lasts for 8 minutes."
+      "SLOWNESS_POTION:1": "A potion of slowness that lasts for 1 minute."
+      "JUMP_POTION:2": "A potion of leaping that lasts for 4 minutes."
+  recipe2:
+    input:
+      - NETHER_WART
+      - GLOWSTONE_DUST
+    output:
+      "REGEN_POTION:1": "A potion of regeneration that lasts for 45 seconds."
+      "WEAKNESS_POTION:1": "A potion of weakness that lasts for 1 minute and 30 seconds."
+      "FIRE_RESISTANCE_POTION:1": "A potion of fire resistance that lasts for 3 minutes."
