@@ -1,22 +1,29 @@
 recipes:
   recipe1:
-    input:
-      - sugar
-      - spider_eye
+    inputs:
+      - SUGAR
+      - REDSTONE
     output:
-      item1:
-        material: SPLASH_POTION
-        amount: 2
-        lore: This is a custom potion
-      item2:
-        material: TIPPED_ARROW
-        amount: 1
+      POTION:1:
+        display-name: "Strong Speed Potion"
+        lore:
+          - "This potion will increase your speed."
+        effects:
+          speed:
+            duration: 1200
+            amplifier: 1
+            color: "#FF7F28"
   recipe2:
-    input:
-      - rabbit_foot
-      - nether_wart
+    inputs:
+      - SPIDER_EYE
+      - GUNPOWDER
     output:
-      item1:
-        material: LINGERING_POTION
-        amount: 1
-        lore: This is another custom potion
+      SPLASH_POTION:1:
+        display-name: "Poison Splash Potion"
+        lore:
+          - "This potion will poison any players hit."
+        effects:
+          poison:
+            duration: 160
+            amplifier: 0
+            color: "#4C2C1D"
