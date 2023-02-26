@@ -1,17 +1,22 @@
 recipes:
   recipe1:
     input:
-      - NETHER_WART
-      - BLAZE_POWDER
+      - sugar
+      - spider_eye
     output:
-      "SPEED_POTION:1": "A potion of swiftness that lasts for 8 minutes."
-      "SLOWNESS_POTION:1": "A potion of slowness that lasts for 1 minute."
-      "JUMP_POTION:2": "A potion of leaping that lasts for 4 minutes."
+      item1:
+        material: SPLASH_POTION
+        amount: 2
+        lore: This is a custom potion
+      item2:
+        material: TIPPED_ARROW
+        amount: 1
   recipe2:
     input:
-      - NETHER_WART
-      - GLOWSTONE_DUST
+      - rabbit_foot
+      - nether_wart
     output:
-      "REGEN_POTION:1": "A potion of regeneration that lasts for 45 seconds."
-      "WEAKNESS_POTION:1": "A potion of weakness that lasts for 1 minute and 30 seconds."
-      "FIRE_RESISTANCE_POTION:1": "A potion of fire resistance that lasts for 3 minutes."
+      item1:
+        material: LINGERING_POTION
+        amount: 1
+        lore: This is another custom potion

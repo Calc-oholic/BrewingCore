@@ -52,7 +52,7 @@ public class Potionbrewing extends JavaPlugin implements Listener {
             System.out.println("Key: " + key);
 
             for (String inputKey : getConfig().getStringList(key + ".input")) {
-                inputMaterials.add(Material.getMaterial(inputKey));
+                inputMaterials.add(Material.getMaterial(inputKey.toUpperCase()));
                 System.out.println("  Input: " + inputKey);
             }
 
@@ -62,6 +62,9 @@ public class Potionbrewing extends JavaPlugin implements Listener {
             if (outputSection != null) {
                 for (String outputKey : outputSection.getKeys(false)) {
                     String[] parts = outputKey.split(":");
+                    if (parts.length < 2) {
+                        continue;
+                    }
                     Material material = Material.getMaterial(parts[0]);
                     int amount = Integer.parseInt(parts[1]);
                     ItemStack outputItem = new ItemStack(material, amount);
@@ -73,7 +76,7 @@ public class Potionbrewing extends JavaPlugin implements Listener {
                     }
 
                     outputItems.add(outputItem);
-                    System.out.println("  Output: " + outputItems);
+                    System.out.println(" Output: " + outputItem);
                 }
             }
 
@@ -88,60 +91,9 @@ public class Potionbrewing extends JavaPlugin implements Listener {
         recipes = loadRecipesFromConfig();
     }
 
-    long cooldown = 60;
-    Map<String, Long> lastUsedTimes = new HashMap<>();
-
-    @EventHandler
-    public void onBrewingStandInteract(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.BREWING_STAND && event.getPlayer().isSneaking() && event.getPlayer().hasPermission("pbrew.potions")) {
-            String playerName = event.getPlayer().getName();
-            if (lastUsedTimes.containsKey(playerName)) {
-                long lastUsedTime = lastUsedTimes.get(playerName);
-                long currentTime = System.currentTimeMillis() / 1000;
-                if (lastUsedTime + cooldown > currentTime) {
-                    return;
-                }
-            }
-            lastUsedTimes.put(playerName, System.currentTimeMillis() / 1000);
-            event.setCancelled(true);
-            Inventory brewingStandInventory = Bukkit.createInventory(null, InventoryType.BREWING);
-            ItemStack potion1 = new ItemStack(Material.LINGERING_POTION);
-            PotionMeta meta = (PotionMeta) potion1.getItemMeta();
-            meta.setDisplayName(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_PURPLE + "Chemistry" + ChatColor.DARK_GRAY + "] " + ChatColor.DARK_PURPLE + "Hydrochloric Acid");
-            meta.addCustomEffect(new PotionEffect(PotionEffectType.WITHER, 160, 1), true);
-            meta.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 160, 1), true);
-            meta.addCustomEffect(new PotionEffect(PotionEffectType.WEAKNESS, 160, 0), true);
-            meta.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
-            meta.setColor(Color.fromRGB(126, 178, 202));
-            potion1.setItemMeta(meta);
-
-            ItemStack potion2 = new ItemStack(Material.SPLASH_POTION);
-            meta = (PotionMeta) potion2.getItemMeta();
-            meta.setDisplayName(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_PURPLE + "Chemistry" + ChatColor.DARK_GRAY + "] " + ChatColor.DARK_PURPLE + "Blue Powder");
-            meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 400, 0), true);
-            meta.addCustomEffect(new PotionEffect(PotionEffectType.JUMP, 400, 0), true);
-            meta.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
-            meta.setColor(Color.fromRGB(32, 32, 164));
-            potion2.setItemMeta(meta);
-
-            ItemStack potion3 = new ItemStack(Material.LINGERING_POTION);
-            meta = (PotionMeta) potion3.getItemMeta();
-            meta.setDisplayName(ChatColor.DARK_GRAY + "[" + ChatColor.DARK_PURPLE + "Chemistry" + ChatColor.DARK_GRAY + "] " + ChatColor.DARK_PURPLE + "Helium");
-            meta.addCustomEffect(new PotionEffect(PotionEffectType.LEVITATION, 40, 0), true);
-            meta.addEnchant(Enchantment.VANISHING_CURSE, 1, true);
-            meta.setColor(Color.fromRGB(255, 0, 0));
-            potion3.setItemMeta(meta);
-
-            brewingStandInventory.setItem(0, potion1);
-            brewingStandInventory.setItem(1, potion2);
-            brewingStandInventory.setItem(2, potion3);
-
-            event.getPlayer().openInventory(brewingStandInventory);
-        }
-    }
 
 
-
+    @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("pbreload")) {
             if (sender.hasPermission("pbrew.reload")) {
